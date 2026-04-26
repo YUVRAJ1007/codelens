@@ -1,0 +1,9 @@
+com/codelens/model/CodeReviewRequest.class
+com/codelens/MLServiceClient.class
+com/codelens/CodeLensApplication.class
+com/codelens/repository/CodeReviewRepository.class
+com/codelens/model/CodeReview.class
+com/codelens/config/RedisConfig.class
+com/codelens/config/WebSocketConfig.class
+com/codelens/App.class
+com/codelens/controller/CodeReviewController.class
