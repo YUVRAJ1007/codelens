@@ -1,0 +1,44 @@
+services:
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: codelensdb
+      POSTGRES_USER: yuvraj
+      POSTGRES_PASSWORD: codelens123
+    ports:
+      - "5432:5432"
+
+  ml-service:
+    build: ./codelens-ml
+    ports:
+      - "5001:5001"
+    depends_on:
+      - redis
+
+  backend:
+    build: ./codelens-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/codelensdb
+      SPRING_DATASOURCE_USERNAME: yuvraj
+      SPRING_DATASOURCE_PASSWORD: codelens123
+      SPRING_DATA_REDIS_HOST: redis
+      ML_SERVICE_URL: http://ml-service:5001
+    depends_on:
+      - postgres
+      - redis
+      - ml-service
+
+  frontend:
+    build: ./codelens-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
